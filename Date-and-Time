@@ -1,0 +1,35 @@
+const { DateTime, IANAZone } = require('luxon');
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+console.log("Please select a country to get the current date and time:");
+
+// Replace with your own list of country names and corresponding IANA time zones
+const countries = {
+  "USA": "America/New_York",
+  "UK": "Europe/London",
+  "India": "Asia/Kolkata",
+  // Add more countries and time zones as needed
+};
+
+// Display the list of countries to the user
+for (const country in countries) {
+  console.log(country);
+}
+
+rl.question("Enter the name of the country: ", (selectedCountry) => {
+  const timeZone = countries[selectedCountry];
+
+  if (timeZone) {
+    const currentTime = DateTime.now().setZone(timeZone);
+    console.log(`Current Date and Time in ${selectedCountry}: ${currentTime.toLocaleString(DateTime.DATETIME_FULL)}`);
+  } else {
+    console.log("Country not found in the list.");
+  }
+
+  rl.close();
+});
